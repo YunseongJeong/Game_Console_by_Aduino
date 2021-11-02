@@ -1,3 +1,4 @@
+#include <LiquidCrystal.h>
 
 int btn_left = 2, btn_right=3, btn_3=4;
 
