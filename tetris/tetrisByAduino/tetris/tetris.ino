@@ -1,3 +1,6 @@
+
+int btn_left = 2, btn_right=3, btn_3=4;
+
 void sumList(int block_list[16][10], int map_list[16][10]);
 
 int what_height(int map[16][10]){
@@ -74,7 +77,7 @@ int drop_block(int block_list[16][10], int map_list[16][10]){
 void sumList(int block_list[16][10], int map_list[16][10]){
   //block list에 있는block을 map_list로 옮긴다.
   // return 없음
-  // parameter 블럭 데이터, 맵 데이 터 
+  // parameter 블럭 데이터, 맵 데이터 
   for (int r=0; r<16; r++){
     for (int c=0; c<10; c++){
       if (block_list[r][c])
@@ -84,8 +87,38 @@ void sumList(int block_list[16][10], int map_list[16][10]){
   }
 } 
 
+void move_block(int block_list[16][10], int map_list[16][10], int moveDirection){
+  //block을 횡 방향으로 움직인다.
+  //return 없음
+  //parameter 블럭 데이터, 맵 데이터, 방향 (왼쪽 -1)(오른쪽 1)
+  int list[16][10];
+  for (int r=0; r<16; r++){
+    for (int c=0; c<10; c++){
+      list[r][c] = block_list[r][c]; 
+    }
+  }
+
+  for (int r=0; r<16; r++){
+    for (int c=(moveDirection==-1?1:14); c!=(moveDirection==-1?16:-1); c-=moveDirection){
+      block_list[r][c+moveDirection] = block_list[r][c];
+    }
+  }
+  /*
+  if (is_crash(block_list, map_list)){
+    for (int r=0; r<16; r++){
+      for (int c=0; c<10; c++){
+        block_list[r][c] = list[r][c]; 
+      }
+    }
+  }
+  */
+}
+
 void setup() {
   Serial.begin(9600);
+  pinMode(btn_left, INPUT_PULLUP);
+  pinMode(btn_right, INPUT_PULLUP);
+  pinMode(btn_3, INPUT_PULLUP);
 }
 
 void loop() {
@@ -126,11 +159,14 @@ void loop() {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   };
   long currentTime, lastTime=millis(); 
+  drop_block(block_list, map_list);
   while(1){
     currentTime = millis();
+    
     if (lastTime+1000 <= currentTime){
-      drop_block(block_list, map_list);
+      //drop_block(block_list, map_list);
       graphic(map_list, block_list);
+      move_block(block_list, map_list, -1);
       lastTime=millis();
     }
   }
