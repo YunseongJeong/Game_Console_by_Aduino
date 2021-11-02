@@ -99,11 +99,11 @@ void move_block(int block_list[16][10], int map_list[16][10], int moveDirection)
   }
 
   for (int r=0; r<16; r++){
-    for (int c=(moveDirection==-1?1:14); c!=(moveDirection==-1?16:-1); c-=moveDirection){
+     for (int c=(moveDirection==-1?1:9); c!=(moveDirection==-1?10:-1); c=c-moveDirection){
       block_list[r][c+moveDirection] = block_list[r][c];
     }
   }
-  /*
+  
   if (is_crash(block_list, map_list)){
     for (int r=0; r<16; r++){
       for (int c=0; c<10; c++){
@@ -111,7 +111,7 @@ void move_block(int block_list[16][10], int map_list[16][10], int moveDirection)
       }
     }
   }
-  */
+  
 }
 
 void setup() {
@@ -159,15 +159,21 @@ void loop() {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
   };
   long currentTime, lastTime=millis(); 
-  drop_block(block_list, map_list);
   while(1){
     currentTime = millis();
     
     if (lastTime+1000 <= currentTime){
-      //drop_block(block_list, map_list);
+      drop_block(block_list, map_list);
       graphic(map_list, block_list);
-      move_block(block_list, map_list, -1);
       lastTime=millis();
+    }
+
+    if (!digitalRead(btn_left)){
+      move_block(block_list, map_list, -1);
+      delay(500);
+    } else if (!digitalRead(btn_right)){
+      move_block(block_list, map_list, 1);
+      delay(500);
     }
   }
 
