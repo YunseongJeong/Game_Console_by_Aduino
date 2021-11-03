@@ -324,6 +324,9 @@ int main(void){
     } else if (GetAsyncKeyState(VK_LSHIFT)){
     	rotate_block(block_list, map_list);
     	Sleep(500);
+	} else if (GetAsyncKeyState(VK_DOWN)){
+		drop_block(block_list, map_list);
+		Sleep(100);
 	}
   }
 }
