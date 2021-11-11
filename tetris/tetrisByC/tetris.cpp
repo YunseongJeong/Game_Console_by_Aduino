@@ -146,7 +146,7 @@ void graphic(int list1[mapSizeY][mapSizeX], int list2[mapSizeY][mapSizeX]){
   printf("////////////////////////////////////////\n");
   for (int r=0; r<mapSizeY; r++){
     for (int c=0; c<mapSizeX; c++){
-      printf(" %s", (list1[r][c]||list2[r][c])?"@": ".");
+      printf(" %s", (list1[r][c]||list2[r][c])?"@": " ");
     }
     printf("\n");
   }
